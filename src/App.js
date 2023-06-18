@@ -1,40 +1,32 @@
 import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
+import { useEffect, useState } from "react";
 
-const arr = [
-	{
-		title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-		price: 12999, imageUrl: '/img/sneakers/1.jpg'
-	},
-	{
-		title: 'Мужские Кроссовки Nike Air Max 270',
-		price: 12999, imageUrl: '/img/sneakers/2.jpg'
-	},
-	{
-		title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-		price: 8499, imageUrl: '/img/sneakers/3.jpg'
-	},
-	{
-		title: 'Кроссовки Puma X Aka Boku Future Rider',
-		price: 8999, imageUrl: '/img/sneakers/4.jpg'
-	},
-]
-
-const onChangeSneakers = () => {
-	arr.map((obj) => {
-		return (
-			<Card title={obj.name} price={obj.price} imageUrl={obj.imageUrl} />
-		)
-	})
-}
 
 function App() {
+	const [items, setItems] = useState([])
+	const [cartItems, setCartItems] = useState([])
+	const [cartOpened, setCartOpened] = useState(false)
+
+	useEffect(() => {
+		fetch("https://648ea6c675a96b66444421a3.mockapi.io/items").then(res => {
+			return res.json()
+		}).then(json => {
+			setItems(json);
+		})
+	}, []);
+
+	const onAddToCart = (obj) => {
+		setCartItems(prev => [...prev, obj])
+	}
+
 
 	return (
 		<div className="wrapper clear">
-			<Drawer />
-			<Header />
+
+			{cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} />}
+			<Header onClickCart={() => setCartOpened(true)} />
 			<div className="content p-40">
 				<div className="d-flex align-center mb-40 justify-between">
 					<h1>Все кроссовки</h1>
@@ -48,9 +40,14 @@ function App() {
 					{/* <Card title={'Мужские Кроссовки Nike Blazer Mid Suede'} price={9000} imageUrl='/img/sneakers/2.jpg'/> */}
 
 
-					{arr.map((obj) => {
+					{items.map((item) => {
 						return (
-							<Card title={obj.title} price={obj.price} imageUrl={obj.imageUrl} />
+							<Card
+								title={item.title}
+								price={item.price}
+								imageUrl={item.imageUrl}
+								onFavorite={() => console.log("Add to cart")}
+								onPlus={(obj) => onAddToCart(obj)} />
 						)
 					})}
 				</div>
