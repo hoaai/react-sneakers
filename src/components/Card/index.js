@@ -2,14 +2,14 @@ import styles from './Card.module.scss'
 import {useEffect, useState} from 'react'
 
 
-const Card = ({imageUrl,title,price,onPlus,onFavorite}) => {
+const Card = ({id,imageUrl,title,price,onPlus,onFavorite,favorited=false}) => {
 
 	const onClickButton = () => {
 		{ alert("Add") }
 	}
 
 	const [isAdded,setIsAdded]=useState(false);
-	const [isLiked,setIsLiked]=useState(false)
+	const [isFavorite,setIsFavorite]=useState(favorited)
 
 	const onClickPlus = () => {
 		onPlus({imageUrl,title,price})
@@ -17,13 +17,14 @@ const Card = ({imageUrl,title,price,onPlus,onFavorite}) => {
 	}
 
 	const onClickFavorite = () => {
-		setIsLiked(!isLiked);
+		onFavorite({id,imageUrl,title,price})
+		setIsFavorite(!isFavorite);
 	}
 
 	return (
 		<div className={styles.card}>
-			<div onClick={onFavorite} className={styles.favorite}>
-				<img src={isLiked? '/img/heart-locked.svg': '/img/heart-unlocked.svg'} alt="unlocked" />
+			<div onClick={onClickFavorite} className={styles.favorite}>
+				<img src={isFavorite? '/img/heart-locked.svg': '/img/heart-unlocked.svg'} alt="unlocked" />
 			</div>
 			<img width={133} height={112} src={imageUrl} alt="sneakers" />
 			<h5>{title}</h5>
