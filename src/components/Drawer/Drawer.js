@@ -39,9 +39,9 @@ const Drawer = ({ onClose, onRemove, items = [], opened }) => {
 	}
 
 	return (
-		<div className={`${styles.overlay} ${opened?styles.overlayVisible:""}`}>
+		<div className={`${styles.overlay} ${opened ? styles.overlayVisible : ""}`}>
 			<div className={styles.drawer}>
-				<h2 className="mb-30 d-flex justify-between ">Корзина<img onClick={onClose} className="cu-p" src="/img/btn-remove.svg" alt="Remove" /></h2>
+				<h2 className="mb-30 d-flex justify-between ">Корзина<img onClick={onClose} className="cu-p" src="img/btn-remove.svg" alt="Remove" /></h2>
 
 				{
 					items.length > 0 ? (<><div className="items">
@@ -57,7 +57,7 @@ const Drawer = ({ onClose, onRemove, items = [], opened }) => {
 										<p className="mb-5">{obj.title}</p>
 										<b>{obj.price} руб.</b>
 									</div>
-									<img onClick={() => onRemove(obj.id)} className="removeBtn" src="/img/btn-remove.svg" alt="Remove" />
+									<img onClick={() => onRemove(obj.id)} className="removeBtn" src="img/btn-remove.svg" alt="Remove" />
 								</div>
 							</>
 
@@ -77,9 +77,9 @@ const Drawer = ({ onClose, onRemove, items = [], opened }) => {
 									<b>{Math.floor(totalPrice * 0.05)} руб.</b>
 								</li>
 							</ul>
-							<button disabled={isLoading} onClick={onClickOrder} className="greenButton">Оформить заказ<img src="/img/arrow-right.svg" alt="arrow" /></button>
+							<button disabled={isLoading} onClick={onClickOrder} className="greenButton">Оформить заказ<img src="img/arrow-right.svg" alt="arrow" /></button>
 						</div></>) : (
-						<Info title={isOrderComplete ? "Заказ оформлен" : "Корзина пустая"} description={isOrderComplete ? `Ваш заказ #${orderId} будет передан курьеру` : "Добавьте хотя бы одну пару кроссовок"} image={isOrderComplete ? "/img/complete-order.jpg" : "/img/empty-cart.jpg"} />
+						<Info title={isOrderComplete ? "Заказ оформлен" : "Корзина пустая"} description={isOrderComplete ? `Ваш заказ #${orderId} будет передан курьеру` : "Добавьте хотя бы одну пару кроссовок"} image={isOrderComplete ? "img/complete-order.jpg" : "img/empty-cart.jpg"} />
 					)
 				}
 
