@@ -5,17 +5,27 @@ import React from 'react'
 import AppContext from '../../context'
 
 
-const Card = ({id,imageUrl,title,price,onPlus,onFavorite,favorited=false,added=false,loading=false}) => {
+const Card = ({
+	id,
+	imageUrl,
+	title,
+	price,
+	onPlus,
+	onFavorite,
+	favorited=false,
+	loading=false
+}) => {
 
 	const {isItemAdded} = React.useContext(AppContext)
 	const [isFavorite,setIsFavorite]=useState(favorited)
+	const obj = {id,parentId:id,imageUrl,title,price}
 
 	const onClickPlus = () => {
-		onPlus({id,imageUrl,title,price})
+		onPlus(obj)
 	}
 
 	const onClickFavorite = () => {
-		onFavorite({id,imageUrl,title,price})
+		onFavorite(obj)
 		setIsFavorite(!isFavorite);
 	}
 
@@ -38,9 +48,9 @@ const Card = ({id,imageUrl,title,price,onPlus,onFavorite,favorited=false,added=f
 				<rect x="124" y="169" rx="9" ry="9" width="32" height="32" />
 			 </ContentLoader>) : 
 			 (<>
-			 <div onClick={onClickFavorite} className={styles.favorite}>
+			 {onFavorite && <div onClick={onClickFavorite} className={styles.favorite}>
 				<img src={isFavorite? '/img/heart-locked.svg': '/img/heart-unlocked.svg'} alt="unlocked" />
-			</div>
+			</div>}
 			<img width={133} height={112} src={imageUrl} alt="sneakers" />
 			<h5>{title}</h5>
 			<div className="d-flex justify-between align-center">
@@ -48,7 +58,7 @@ const Card = ({id,imageUrl,title,price,onPlus,onFavorite,favorited=false,added=f
 					<span>Цена:</span>
 					<b>{price} руб.</b>
 				</div>
-					<img className={styles.plus} onClick={onClickPlus} src={ isItemAdded(id) ?`/img/btn-checked.svg`: `/img/btn-plus.svg`} alt="Plus" />
+					{onPlus && <img className={styles.plus} onClick={onClickPlus} src={ isItemAdded(id) ?`/img/btn-checked.svg`: `/img/btn-plus.svg`} alt="Plus" />}
 			</div>
 			</>)
 			}
